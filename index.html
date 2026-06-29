@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Get your edge back — 8-week sharpening</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  :root{
+    --bg:#14151C; --surface:#1C1E28; --surface2:#23262F; --line:#2C3040; --lineSoft:#23262F;
+    --text:#ECEDF2; --sub:#9BA0B3; --faint:#6B7080;
+    --code:#5BD0A4; --design:#6FA8FF; --behavioral:#F5B85C; --review:#C08BF0; --read:#8AA0B5; --streak:#FF8A5B;
+    --display:'Fraunces',Georgia,serif; --body:'Inter',system-ui,-apple-system,sans-serif; --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:radial-gradient(120% 80% at 50% -10%, #1d2030 0%, var(--bg) 55%);background-attachment:fixed;min-height:100vh;color:var(--text);font-family:var(--body);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:680px;margin:0 auto;padding:34px 20px 80px;}
+  a{color:inherit;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--code);}
+  h1{font-family:var(--display);font-size:40px;font-weight:600;margin:8px 0 0;letter-spacing:-.01em;line-height:1.02;}
+  .tagline{font-family:var(--display);font-size:18px;font-style:italic;color:var(--sub);margin-top:6px;}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;}
+  .stats{display:flex;gap:14px;margin-top:26px;padding:18px;flex-wrap:wrap;}
+  .stat{flex:1;min-width:76px;}
+  .stat .num{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1;}
+  .stat .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:6px;}
+  .bar{margin-top:14px;height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--code),var(--design));border-radius:99px;transition:width .4s ease;}
+  .daterow{margin-top:14px;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;color:var(--faint);flex-wrap:wrap;}
+  .daterow span.k{letter-spacing:.06em;text-transform:uppercase;}
+  input[type=date]{background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:5px 8px;font-family:var(--mono);font-size:12px;color-scheme:dark;}
+  .sectlabel{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:30px 0 10px;}
+  .today{padding:20px 20px 14px;background:var(--surface);border:1px solid var(--code);border-radius:18px;box-shadow:0 18px 40px -24px var(--code);}
+  .today .top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .today .wk{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--code);}
+  .today .focus{font-family:var(--display);font-size:23px;font-weight:600;margin-top:3px;}
+  .today .theme{font-size:12.5px;color:var(--sub);margin-top:2px;}
+  .today .date{font-family:var(--mono);font-size:11px;color:var(--faint);}
+  .hr{height:1px;background:var(--line);margin:14px 0 4px;}
+  .note{color:var(--sub);font-size:13px;line-height:1.5;margin:4px 0 12px;border-left:2px solid var(--line);padding-left:10px;font-style:italic;}
+  .task{display:flex;gap:12px;align-items:flex-start;padding:9px 0;}
+  .chk{width:22px;height:22px;border-radius:7px;flex-shrink:0;cursor:pointer;border:1.5px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;transition:all .15s ease;padding:0;}
+  .chk.on{border-style:solid;}
+  .chk svg{display:none;}
+  .chk.on svg{display:block;}
+  .task .kind{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;}
+  .task .meta{font-family:var(--mono);font-size:10px;color:var(--faint);}
+  .task .lbl{font-size:14.5px;line-height:1.45;margin-top:2px;color:var(--text);}
+  .task.done .lbl{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--line);}
+  .task .lbl a{text-decoration:none;border-bottom:1px dotted var(--line);}
+  .task .lbl a:hover{border-color:var(--sub);}
+  .recent{overflow:hidden;}
+  .recent .row{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;align-items:center;}
+  .recent .row + .row{border-top:1px solid var(--lineSoft);}
+  .recent .row .t{font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .recent .row .when{font-family:var(--mono);font-size:10.5px;color:var(--faint);flex-shrink:0;}
+  .wk{margin-bottom:10px;background:var(--surface);border:1px solid var(--lineSoft);border-radius:14px;overflow:hidden;}
+  .wk.open{border-color:var(--line);}
+  .wk-head{width:100%;text-align:left;background:transparent;border:none;cursor:pointer;padding:15px 16px;display:flex;align-items:center;gap:12px;color:inherit;}
+  .wk-head:hover{background:var(--surface2);}
+  .wk-head .idx{font-family:var(--mono);font-size:12px;color:var(--faint);width:26px;flex-shrink:0;}
+  .wk-head .th{font-family:var(--display);font-size:17px;font-weight:600;}
+  .wk-head .sb{font-size:12px;color:var(--sub);margin-top:1px;}
+  .wk-head .cnt{font-family:var(--mono);font-size:11px;color:var(--faint);flex-shrink:0;}
+  .wk-head .cnt.full{color:var(--code);}
+  .wk-head .car{color:var(--faint);transition:transform .2s;flex-shrink:0;}
+  .wk.open .wk-head .car{transform:rotate(90deg);}
+  .wk-body{padding:0 16px 8px;}
+  .dayblock{border-top:1px solid var(--lineSoft);padding:12px 0;}
+  .dayhead{display:flex;align-items:baseline;gap:10px;}
+  .dayhead .dn{font-family:var(--mono);font-size:12px;color:var(--sub);width:34px;}
+  .dayhead .dn.done{color:var(--code);}
+  .dayhead .df{font-size:13.5px;font-weight:500;}
+  .dayhead .dd{font-family:var(--mono);font-size:10px;color:var(--faint);margin-left:auto;}
+  .dayinner{padding-left:44px;margin-top:2px;}
+  .restbox{padding:14px 0 4px;}
+  .restbox .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);}
+  .restbox .m{color:var(--sub);font-size:14.5px;line-height:1.6;margin-top:8px;font-style:italic;font-family:var(--display);}
+  .footer{margin-top:36px;text-align:center;}
+  .btn{background:transparent;border:1px solid var(--line);color:var(--faint);border-radius:9px;padding:8px 14px;font-family:var(--mono);font-size:11px;cursor:pointer;letter-spacing:.05em;margin:0 5px;}
+  .btn:hover{color:var(--text);border-color:var(--sub);}
+  .foot-note{color:var(--faint);font-size:12px;margin-top:16px;line-height:1.6;font-family:var(--display);font-style:italic;}
+  .finished{padding:28px 22px;background:var(--surface);border:1px solid var(--code);border-radius:18px;}
+  .finished .h{font-family:var(--display);font-size:24px;font-weight:600;}
+  .finished .p{color:var(--sub);margin-top:8px;line-height:1.6;}
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+<div class="wrap" id="root"></div>
+<script>
+var COLOR={code:"var(--code)",design:"var(--design)",behavioral:"var(--behavioral)",review:"var(--review)",read:"var(--read)"};
+var KIND={code:{c:"var(--code)",tag:"code"},design:{c:"var(--design)",tag:"system design"},behavioral:{c:"var(--behavioral)",tag:"behavioral"},review:{c:"var(--review)",tag:"review"},read:{c:"var(--read)",tag:"read"}};
+function lc(name){return"https://www.google.com/search?q="+encodeURIComponent("neetcode "+name);}
+function code(name,diff){return{kind:"code",label:name,meta:diff,url:lc(name)};}
+function design(label){return{kind:"design",label:label};}
+function beh(label){return{kind:"behavioral",label:label};}
+function rev(label){return{kind:"review",label:label};}
+function read(label){return{kind:"read",label:label};}
+var PLAN=[
+  {theme:"Knock off the rust",sub:"Arrays · Hashing · Two Pointers",days:[
+    {d:"Mon",focus:"Gentle restart",note:"Don't time yourself today. Just remember how it feels to solve one.",tasks:[code("Two Sum","Easy"),code("Valid Anagram","Easy")]},
+    {d:"Tue",focus:"Hashing patterns",tasks:[code("Group Anagrams","Medium"),code("Top K Frequent Elements","Medium")]},
+    {d:"Wed",focus:"Prefix & product tricks",tasks:[code("Product of Array Except Self","Medium"),code("Contains Duplicate","Easy")]},
+    {d:"Thu",focus:"Two pointers",tasks:[code("Valid Palindrome","Easy"),code("3Sum","Medium")]},
+    {d:"Fri",focus:"Design foundations",tasks:[read("Client/server, latency vs throughput, the numbers every engineer should know"),beh("Draft STAR story #1 — a time you disagreed with a teammate")]},
+    {d:"Sat",focus:"Light reps + review",tasks:[code("Container With Most Water","Medium"),rev("Redo one shaky problem from this week — no notes")]},
+    {d:"Sun",rest:true,note:"Close the laptop. Seriously. Week 1 is in the bank."}
+  ]},
+  {theme:"Windows & stacks",sub:"Sliding Window · Stack · Binary Search",days:[
+    {d:"Mon",focus:"Sliding window intro",tasks:[code("Best Time to Buy and Sell Stock","Easy"),code("Longest Substring Without Repeating Characters","Medium")]},
+    {d:"Tue",focus:"Window, harder",tasks:[code("Longest Repeating Character Replacement","Medium"),code("Permutation in String","Medium")]},
+    {d:"Wed",focus:"Stacks",tasks:[code("Valid Parentheses","Easy"),code("Min Stack","Medium")]},
+    {d:"Thu",focus:"Monotonic + search",tasks:[code("Daily Temperatures","Medium"),code("Binary Search","Easy")]},
+    {d:"Fri",focus:"Design: storage",tasks:[design("Databases 101 — SQL vs NoSQL, indexing, when to denormalize"),beh("Draft STAR story #2 — delivering under a tight deadline")]},
+    {d:"Sat",focus:"Stretch + review",tasks:[code("Search in Rotated Sorted Array","Medium"),rev("Redo a sliding-window problem from memory")]},
+    {d:"Sun",rest:true,note:"Rest day. Let it consolidate."}
+  ]},
+  {theme:"Pointers in motion",sub:"Linked Lists · Trees (intro)",days:[
+    {d:"Mon",focus:"List basics",tasks:[code("Reverse Linked List","Easy"),code("Merge Two Sorted Lists","Easy")]},
+    {d:"Tue",focus:"Cycles & reshaping",tasks:[code("Linked List Cycle","Easy"),code("Reorder List","Medium")]},
+    {d:"Wed",focus:"Trickier lists",tasks:[code("Remove Nth Node From End of List","Medium"),code("Copy List With Random Pointer","Medium")]},
+    {d:"Thu",focus:"First trees",tasks:[code("Invert Binary Tree","Easy"),code("Maximum Depth of Binary Tree","Easy"),code("Same Tree","Easy")]},
+    {d:"Fri",focus:"Design: scale",tasks:[design("Scaling — caching, CDNs, load balancing, replication vs sharding"),beh("Draft STAR story #3 — a failure and what you learned")]},
+    {d:"Sat",focus:"Build + review",tasks:[code("LRU Cache","Medium"),rev("Re-implement a linked-list problem from scratch")]},
+    {d:"Sun",rest:true,note:"Halfway through the warm-up. Breathe."}
+  ]},
+  {theme:"Into the trees",sub:"Trees · Tries · Heaps",days:[
+    {d:"Mon",focus:"Traversal & BST",tasks:[code("Binary Tree Level Order Traversal","Medium"),code("Validate Binary Search Tree","Medium")]},
+    {d:"Tue",focus:"BST navigation",tasks:[code("Kth Smallest Element in a BST","Medium"),code("Lowest Common Ancestor of a BST","Medium")]},
+    {d:"Wed",focus:"Build & tries",tasks:[code("Construct Binary Tree from Preorder and Inorder Traversal","Medium"),code("Implement Trie (Prefix Tree)","Medium")]},
+    {d:"Thu",focus:"Heaps",tasks:[code("Kth Largest Element in an Array","Medium"),code("Last Stone Weight","Easy")]},
+    {d:"Fri",focus:"Design: a real system",tasks:[design("Design a URL shortener — API, schema, scale, walk it end to end"),beh("Draft STAR story #4 — taking ownership of something messy")]},
+    {d:"Sat",focus:"One hard, slowly",tasks:[code("Find Median from Data Stream","Hard"),rev("Say one STAR story out loud — time it, aim ~2 min")]},
+    {d:"Sun",rest:true,note:"Rest. You now have all 4 stories drafted."}
+  ]},
+  {theme:"Branch & explore",sub:"Backtracking · Graphs (intro)",days:[
+    {d:"Mon",focus:"Backtracking",tasks:[code("Subsets","Medium"),code("Combination Sum","Medium")]},
+    {d:"Tue",focus:"More backtracking",tasks:[code("Permutations","Medium"),code("Word Search","Medium")]},
+    {d:"Wed",focus:"Graph traversal",tasks:[code("Number of Islands","Medium"),code("Clone Graph","Medium")]},
+    {d:"Thu",focus:"Grid DFS/BFS",tasks:[code("Max Area of Island","Medium"),code("Pacific Atlantic Water Flow","Medium")]},
+    {d:"Fri",focus:"Design: object-oriented",tasks:[design("Design a parking lot (object-oriented) — entities, states, edge cases, capacity"),beh("Record yourself answering STAR #1 — watch it back, no cringing")]},
+    {d:"Sat",focus:"Topo sort + review",tasks:[code("Course Schedule","Medium"),rev("Redo any graph problem that bit you")]},
+    {d:"Sun",rest:true,note:"Rest day. The hard stuff starts feeling normal soon."}
+  ]},
+  {theme:"Graphs & first DP",sub:"Graphs · 1-D Dynamic Programming",days:[
+    {d:"Mon",focus:"Graph structure",tasks:[code("Course Schedule II","Medium"),code("Number of Connected Components in an Undirected Graph","Medium")]},
+    {d:"Tue",focus:"Union find",tasks:[code("Graph Valid Tree","Medium"),code("Redundant Connection","Medium")]},
+    {d:"Wed",focus:"DP foundations",tasks:[code("Climbing Stairs","Easy"),code("House Robber","Medium")]},
+    {d:"Thu",focus:"DP patterns",tasks:[code("House Robber II","Medium"),code("Longest Palindromic Substring","Medium")]},
+    {d:"Fri",focus:"Design: messaging",tasks:[design("Design a chat system (WhatsApp) — delivery, presence, fan-out"),beh("Behavioral mock — run all 4 stories back to back, out loud")]},
+    {d:"Sat",focus:"Classic DP",tasks:[code("Coin Change","Medium"),code("Decode Ways","Medium")]},
+    {d:"Sun",rest:true,note:"Rest. Two weeks left — you're in good shape."}
+  ]},
+  {theme:"Closing patterns",sub:"2-D DP · Greedy · Intervals",days:[
+    {d:"Mon",focus:"Grid DP",tasks:[code("Unique Paths","Medium"),code("Longest Common Subsequence","Medium")]},
+    {d:"Tue",focus:"2-D DP",tasks:[code("Coin Change II","Medium"),code("Maximum Subarray","Medium")]},
+    {d:"Wed",focus:"Greedy + intervals",tasks:[code("Jump Game","Medium"),code("Insert Interval","Medium")]},
+    {d:"Thu",focus:"Interval mastery",tasks:[code("Merge Intervals","Medium"),code("Non-overlapping Intervals","Medium")]},
+    {d:"Fri",focus:"Design: object-oriented",tasks:[design("Design an elevator system (object-oriented) — state machine, scheduling, multiple cars"),beh("Write a one-line headline for each of your 4 stories")]},
+    {d:"Sat",focus:"One hard, earned",tasks:[code("Trapping Rain Water","Hard"),rev("Pick your weakest topic — do one more problem from it")]},
+    {d:"Sun",rest:true,note:"Last rest before the dress rehearsal. Enjoy it."}
+  ]},
+  {theme:"Dress rehearsal",sub:"Mocks · Integration · Confidence",days:[
+    {d:"Mon",focus:"Coding mock",tasks:[rev("Mock coding interview — 2 random mediums, 45 min, timed, talk out loud"),beh("Note which story fits a 'tell me about a hard problem' prompt")]},
+    {d:"Tue",focus:"Fix-ups",tasks:[rev("Redo anything from Monday that felt off — clean it up"),code("Random pick — one problem you've never seen","Medium")]},
+    {d:"Wed",focus:"Design mock",tasks:[design("Mock system design (high-level) — 45 min, pick a fresh one: news feed, ride-share, or file storage")]},
+    {d:"Thu",focus:"Behavioral mock",tasks:[beh("Full behavioral mock — have a friend or AI ask follow-ups"),rev("Drill one pattern that still feels shaky")]},
+    {d:"Fri",focus:"Final design",tasks:[design("Final design — pick a fresh one: rate limiter, notification system, or an OOD like a vending machine"),beh("Read your 4 story headlines one last time")]},
+    {d:"Sat",focus:"Confidence pass",tasks:[rev("Re-skim your notes/cheat sheets"),code("One easy problem — just to feel fast, then stop","Easy")]},
+    {d:"Sun",rest:true,note:"You're ready. Rest up — and good luck."}
+  ]}
+];
+var FLAT=[],TASK_BY_ID={},STUDY_DAYS=[];
+PLAN.forEach(function(wk,w){wk.days.forEach(function(day,d){
+  var dayKey="w"+w+"d"+d;
+  if(!day.rest)STUDY_DAYS.push({w:w,d:d});
+  (day.tasks||[]).forEach(function(t,i){var id=dayKey+"t"+i;var obj=Object.assign({id:id,dayKey:dayKey,w:w,d:d},t);FLAT.push(obj);TASK_BY_ID[id]=obj;});
+});});
+var TOTAL_TASKS=FLAT.length;
+var TOTAL_CODE=FLAT.filter(function(t){return t.kind==="code";}).length;
+var KEY="sharpen_v1";
+var state={progress:{},start:null,openWeek:0};
+function load(){try{var raw=localStorage.getItem(KEY);if(raw){var s=JSON.parse(raw);state.progress=s.progress||{};state.start=s.start||null;}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({progress:state.progress,start:state.start}));}catch(e){}}
+function dayTasks(w,d){return FLAT.filter(function(t){return t.w===w&&t.d===d;});}
+function isDayDone(w,d){var ts=dayTasks(w,d);return ts.length>0&&ts.every(function(t){return state.progress[t.id];});}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function relTime(iso){if(!iso)return"";var diff=Date.now()-new Date(iso).getTime(),m=Math.floor(diff/60000);if(m<1)return"just now";if(m<60)return m+"m ago";var h=Math.floor(m/60);if(h<24)return h+"h ago";var dd=Math.floor(h/24);if(dd<7)return dd+"d ago";return new Date(iso).toLocaleDateString(undefined,{month:"short",day:"numeric"});}
+function fmtDate(gi){if(!state.start)return null;var dt=new Date(state.start+"T00:00:00");dt.setDate(dt.getDate()+gi);return dt.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});}
+var CHECK_SVG='<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#14151C" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function taskHTML(t){var on=!!state.progress[t.id];var k=KIND[t.kind];var label=t.url?'<a href="'+t.url+'" target="_blank" rel="noreferrer">'+esc(t.label)+'</a>':esc(t.label);return'<div class="task'+(on?' done':'')+'"><button class="chk'+(on?' on':'')+'" data-task="'+t.id+'" aria-pressed="'+on+'" style="'+(on?'background:'+k.c+';border-color:'+k.c:'border-color:var(--line)')+'">'+CHECK_SVG+'</button><div style="flex:1;min-width:0"><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span class="kind" style="color:'+k.c+'">'+k.tag+'</span>'+(t.meta?'<span class="meta">'+esc(t.meta)+'</span>':'')+'</div><div class="lbl">'+label+'</div></div></div>';}
+function dayBodyHTML(w,d,day){var gi=w*7+d,dl=fmtDate(gi);if(day.rest){return'<div class="restbox"><div class="k">rest day'+(dl?' · '+dl:'')+'</div><div class="m">'+esc(day.note)+'</div></div>';}var html=day.note?'<div class="note">'+esc(day.note)+'</div>':'';html+=dayTasks(w,d).map(taskHTML).join('');return html;}
+function todayHTML(cur){var w=cur.w,d=cur.d,wk=PLAN[w],day=wk.days[d],dl=fmtDate(w*7+d);return'<div class="today"><div class="top"><div><div class="wk">Week '+(w+1)+' · '+day.d+'</div><div class="focus">'+esc(day.focus)+'</div><div class="theme">'+esc(wk.theme)+' — '+esc(wk.sub)+'</div></div>'+(dl?'<div class="date">'+dl+'</div>':'')+'</div><div class="hr"></div>'+dayBodyHTML(w,d,day)+'</div>';}
+function statHTML(num,lbl,color){return'<div class="stat"><div class="num"'+(color?' style="color:'+color+'"':'')+'>'+num+'</div><div class="lbl">'+lbl+'</div></div>';}
+function render(){
+  var done=Object.keys(state.progress).filter(function(k){return state.progress[k];}).length;
+  var codeDone=Object.keys(state.progress).filter(function(k){return state.progress[k]&&TASK_BY_ID[k]&&TASK_BY_ID[k].kind==="code";}).length;
+  var pct=Math.round((done/TOTAL_TASKS)*100);
+  var sessionsDone=STUDY_DAYS.filter(function(s){return isDayDone(s.w,s.d);}).length;
+  var streak=0;for(var i=0;i<STUDY_DAYS.length;i++){if(isDayDone(STUDY_DAYS[i].w,STUDY_DAYS[i].d))streak++;else break;}
+  var cur=null;for(var w=0;w<PLAN.length&&!cur;w++)for(var d=0;d<PLAN[w].days.length&&!cur;d++){if(!PLAN[w].days[d].rest&&!isDayDone(w,d))cur={w:w,d:d};}
+  var finished=!cur;
+  if(cur&&state.openWeek===0&&!window.__weekTouched)state.openWeek=cur.w;
+  var tagline=finished?"Sharp. Go get it.":pct<12?"Rust coming off.":pct<40?"Finding your rhythm.":pct<70?"Edge returning.":pct<92?"Nearly sharp.":"One last pass.";
+  var recent=Object.keys(state.progress).filter(function(id){return state.progress[id]&&TASK_BY_ID[id];}).map(function(id){return{t:TASK_BY_ID[id],at:state.progress[id]};}).sort(function(a,b){return new Date(b.at)-new Date(a.at);}).slice(0,5);
+  var html='<div class="eyebrow">8-week sharpening</div><h1>Get your edge back.</h1><div class="tagline">'+tagline+'</div>';
+  html+='<div class="card stats">'+statHTML(pct+'%','of plan','var(--code)')+statHTML(sessionsDone,'of 48 sessions','')+statHTML(codeDone,'/ '+TOTAL_CODE+' solved','')+statHTML(streak+'🔥','day streak','var(--streak)')+'</div>';
+  html+='<div class="bar"><i style="width:'+pct+'%"></i></div>';
+  html+='<div class="daterow"><span class="k">start date</span><input type="date" id="startdate" value="'+(state.start||'')+'">'+(state.start?'':'<span>optional — maps each day to a real date, no pressure if you fall behind</span>')+'</div>';
+  html+='<div class="sectlabel">'+(finished?'the whole plan':'your next session')+'</div>';
+  if(finished){html+='<div class="finished"><div class="h">Every box is checked.</div><div class="p">Eight weeks, 48 sessions, four stories rehearsed. The rust is gone. Walk in knowing you did the work — and remember the bar raiser just wants to see how you think, not perfection.</div></div>';}
+  else{html+=todayHTML(cur);}
+  if(recent.length){html+='<div class="sectlabel">recent activity</div><div class="card recent">';recent.forEach(function(r){html+='<div class="row"><span class="t"><span style="color:'+KIND[r.t.kind].c+'">•</span> '+esc(r.t.label)+'</span><span class="when">'+relTime(r.at)+'</span></div>';});html+='</div>';}
+  html+='<div class="sectlabel">the full eight weeks</div>';
+  PLAN.forEach(function(wk,w){
+    var open=state.openWeek===w;
+    var wkDone=wk.days.reduce(function(a,day,d){return a+(isDayDone(w,d)?1:0);},0);
+    var wkStudy=wk.days.filter(function(x){return!x.rest;}).length;
+    html+='<div class="wk'+(open?' open':'')+'"><button class="wk-head" data-week="'+w+'"><div class="idx">'+String(w+1).padStart(2,'0')+'</div><div style="flex:1;min-width:0"><div class="th">'+esc(wk.theme)+'</div><div class="sb">'+esc(wk.sub)+'</div></div><div class="cnt'+(wkDone===wkStudy?' full':'')+'">'+wkDone+'/'+wkStudy+'</div><div class="car">›</div></button>';
+    if(open){html+='<div class="wk-body">';wk.days.forEach(function(day,d){var dDone=isDayDone(w,d),dl=fmtDate(w*7+d);html+='<div class="dayblock"><div class="dayhead"><span class="dn'+(dDone?' done':'')+'">'+day.d+'</span><span class="df">'+(day.rest?'Rest':esc(day.focus))+'</span>'+(dl?'<span class="dd">'+dl+'</span>':'')+'</div><div class="dayinner">'+dayBodyHTML(w,d,day)+'</div></div>';});html+='</div>';}
+    html+='</div>';
+  });
+  html+='<div class="footer"><button class="btn" id="export">export backup</button><button class="btn" id="import">import backup</button><button class="btn" id="reset">reset progress</button><input type="file" id="importfile" accept="application/json" style="display:none"><div class="foot-note">Saved automatically in this browser. Miss a day? Just pick up where you left off — the plan waits for you.</div></div>';
+  var scrollY=window.scrollY;document.getElementById('root').innerHTML=html;window.scrollTo(0,scrollY);
+}
+document.addEventListener('click',function(e){
+  var chk=e.target.closest('[data-task]');
+  if(chk){var id=chk.getAttribute('data-task');if(state.progress[id])delete state.progress[id];else state.progress[id]=new Date().toISOString();save();render();return;}
+  var wh=e.target.closest('[data-week]');
+  if(wh){var w=+wh.getAttribute('data-week');window.__weekTouched=true;state.openWeek=(state.openWeek===w?-1:w);render();return;}
+  if(e.target.id==='reset'){if(confirm("Reset all progress? This clears every check and your start date.")){state.progress={};state.start=null;save();render();}return;}
+  if(e.target.id==='export'){var blob=new Blob([JSON.stringify({progress:state.progress,start:state.start},null,2)],{type:"application/json"});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download="sharpen-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);return;}
+  if(e.target.id==='import'){document.getElementById('importfile').click();return;}
+});
+document.addEventListener('change',function(e){
+  if(e.target.id==='startdate'){state.start=e.target.value||null;save();render();return;}
+  if(e.target.id==='importfile'){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var s=JSON.parse(r.result);state.progress=s.progress||{};state.start=s.start||null;save();render();}catch(err){alert("Couldn't read that backup file.");}};r.readAsText(f);return;}
+});
+load();render();
+</script>
+</body>
+</html>
