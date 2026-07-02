@@ -70,6 +70,8 @@
   .tval{font-family:var(--mono);font-size:11px;color:var(--faint);min-width:36px;}
   .tval.running{color:var(--streak);}
   .tval.has-time{color:var(--sub);}
+  .treset{background:transparent;border:none;cursor:pointer;font-size:13px;color:var(--faint);padding:0 2px;line-height:1;transition:color .15s,transform .2s;}
+  .treset:hover{color:var(--streak);transform:rotate(-45deg);}
   /* extra problems */
   .add-extra-btn{display:flex;align-items:center;gap:8px;margin-top:6px;padding:7px 10px;border:1px dashed var(--line);border-radius:10px;background:none;cursor:pointer;width:100%;text-align:left;transition:all .2s ease;}
   .add-extra-btn:hover{border-color:var(--code);background:rgba(16,184,148,.05);}
@@ -390,6 +392,7 @@ function taskHTML(t){
   var timerHTML='<div class="timer-row">'
     +'<button class="tbtn'+(running?' running':'')+'" data-tt="'+t.id+'" title="'+(running?'Stop timer':'Start timer')+'">'+(running?'⏸':'▶')+'</button>'
     +'<span class="tval'+(running?' running':ms>0?' has-time':'')+'" data-tv="'+t.id+'">'+fmtTime(ms)+'</span>'
+    +(ms>0?'<button class="treset" data-tr="'+t.id+'" title="Reset timer">↺</button>':'')
     +'</div>';
   return'<div class="task'+(on?' done':'')+'"><button class="chk'+(on?' on':'')+(pop?' pop':'')+'" data-task="'+t.id+'" aria-pressed="'+on+'" style="'+(on?'background:'+k.c+';border-color:'+k.c:'border-color:var(--line)')+'">'+CHECK_SVG+'</button>'
     +'<div class="task-body"><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span class="kind" style="color:'+k.c+'">'+k.tag+'</span>'+(t.meta?'<span class="meta">'+esc(t.meta)+'</span>':'')+badge+'</div>'
@@ -489,6 +492,14 @@ function render(){
 }
 
 document.addEventListener('click',function(e){
+  // timer reset
+  var tr=e.target.closest('[data-tr]');
+  if(tr){
+    var id=tr.getAttribute('data-tr');
+    state.timers[id]={elapsed:0,running:false,startedAt:null};
+    save();render();return;
+  }
+
   // timer toggle — lightweight update, no full re-render
   var tt=e.target.closest('[data-tt]');
   if(tt){
