@@ -297,14 +297,12 @@ PLAN.forEach(function(wk,w){wk.days.forEach(function(day,d){
 });});
 var TOTAL_TASKS=FLAT.length;
 var TOTAL_CODE=FLAT.filter(function(t){return t.kind==="code";}).length;
-var KEY="sharpen_v2";
+var KEY="sharpen_v1";
 var state={progress:{},start:null,openWeek:0,justToggled:null,timers:{},extras:{},extraIdx:{}};
 
 function load(){
   try{
     var raw=localStorage.getItem(KEY);
-    // migrate from old key — keeps existing progress intact
-    if(!raw){var old=localStorage.getItem("sharpen_v1");if(old)raw=old;}
     if(raw){
       var s=JSON.parse(raw);
       state.progress=s.progress||{};
@@ -312,12 +310,9 @@ function load(){
       state.timers=s.timers||{};
       state.extras=s.extras||{};
       state.extraIdx=s.extraIdx||{};
-      // re-register saved extras into TASK_BY_ID
       Object.keys(state.extras).forEach(function(dk){
         (state.extras[dk]||[]).forEach(function(t){if(t&&t.id)TASK_BY_ID[t.id]=t;});
       });
-      // write to new key so future loads don't re-read the old one
-      save();
     }
   }catch(e){}
 }
